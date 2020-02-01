@@ -1,7 +1,10 @@
+ArrayList<dragText> dragTextList = new ArrayList<dragText>();
 textField textFieldTest;
 card myCard;
-button myButton;
+button changePage;
+button addDragText;
 tabButton tabButtonTest;
+dragText testt;
 
 slider sliderTest; 
 slider sliderTestBG; 
@@ -21,7 +24,7 @@ void setup()
   size(1024,768);   
   scene = 0;
   String[] tabLabels = {"metall", "carton", "glass", "paper"}; 
-  tabButtonTest = new tabButton(420, 580, 4, 202, 30, tabLabels);  //erzeugt ein tabButton Objekt mit an x: 720, y: 500, Anzahl der Tabs: 4, Breite: 202, Höhe: 30 und den in obigem Array gespreicherten Text Labels
+  tabButtonTest = new tabButton(420, 580, 4, 500, 30, tabLabels);  //erzeugt ein tabButton Objekt mit an x: 720, y: 500, Anzahl der Tabs: 4, Breite: 202, Höhe: 30 und den in obigem Array gespreicherten Text Labels
   tabButtonTest.activeTab = 3;  
   sliderTest = new slider(100, 220, 200, 20);                      //erzeugt ein slider Objekt mit an x: 720, y: 450, Breite: 200, Höhe: 20 
   sliderTest.myValue = 0.5; 
@@ -32,7 +35,10 @@ void setup()
   cardHeight = new slider(750,220,200,20);
   cardHeight.myValue = 0;
   textFieldTest = new textField(420, 500, 200, 40, "test");  
-  myButton = new button(800,700,170,44, "Edit Etui");
+  
+  changePage = new button(800,700,170,44, "Edit Etui");
+  addDragText = new button(500,400,170,44, "Add Text");
+  
   myFontUI = createFont("lmmono10-regular.otf", 32);   
   apple = loadImage("apple.png");  
   metallBG = loadImage("metallBG.jpg");
@@ -77,8 +83,7 @@ void draw()
     text("Background", 182, 100);
     text("Width", 790, 100);
     text("Height", 800, 200);
-    
-    text(textFieldTest.myText, 500, 330);
+        
     popStyle();  
     image(topHand, -180, -200, 1022*1.5, 680*1.5);  
     tabButtonTest.draw();    
@@ -87,16 +92,30 @@ void draw()
     cardWidth.draw();
     cardHeight.draw();
     textFieldTest.draw();
+    
+    addDragText.draw();
+    
+    for(int i = 0; i < dragTextList.size(); i++) {
+    dragTextList.get(i).draw();
+    }
+    
+    if (addDragText.pressed == 1)
+    {
+      dragText t = new dragText(800, 400, textFieldTest.myText);
+      dragTextList.add(t);
+      print(dragTextList.size());
+      addDragText.pressed = 0;
+    }
   }
   
-  myButton.draw();
-  if (myButton.pressed == 1)
+  changePage.draw();
+  if (changePage.pressed == 1)
     {
       if (scene == 0)
       scene = 1;
       else 
       scene = 0;
-      myButton.pressed = 0;
+      changePage.pressed = 0;
     }
   
 }
@@ -115,7 +134,12 @@ void mousePressed()
   cardWidth.mousePressed();
   cardHeight.mousePressed();
   textFieldTest.mousePressed();
-  myButton.mousePressed();
+  changePage.mousePressed();
+  addDragText.mousePressed();
+  
+  for(int i = 0; i < dragTextList.size(); i++) {
+    dragTextList.get(i).mousePressed();
+  }
   
   //int lastPrintSizeSelection = tabButtonTest.activeTab;
   tabButtonTest.mousePressed();
@@ -130,6 +154,9 @@ void mouseDragged() {
   sliderTestBG.mouseDragged();
   cardWidth.mouseDragged();
   cardHeight.mouseDragged();
+  for(int i = 0; i < dragTextList.size(); i++) {
+    dragTextList.get(i).mouseDragged();
+  }
 }
 
 void mouseReleased() {
@@ -137,4 +164,7 @@ void mouseReleased() {
   sliderTestBG.mouseReleased();
   cardWidth.mouseReleased();
   cardHeight.mouseReleased();
+  for(int i = 0; i < dragTextList.size(); i++) {
+    dragTextList.get(i).mouseReleased();
+  }
 }

@@ -37,7 +37,6 @@ class button {
   void mousePressed() { //<>//
       if (insideRect(mouseX, mouseY, xPos, yPos, myWidth, myHeight)) { //<>//
         pressed = 1;
-        print("pressed");
       }
   }
 }
