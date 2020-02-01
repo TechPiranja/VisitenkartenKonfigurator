@@ -56,22 +56,17 @@ void draw()
     image(bottom, -180, -200, 1022*1.5, 680*1.5);  
     pushStyle();  
     fill(sliderTestBG.myValue * 360, 50, 90);
-    if (tabButtonTest.activeTab == 0)
-    {
-    tint(sliderTestBG.myValue * 360, 50, 90);
-    image(metallBG, 420 - (int)(cardWidth.myValue * 360)/5, 200 - (int)(cardHeight.myValue * 360)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 360));
-    }else if (tabButtonTest.activeTab == 1){
-    tint(sliderTestBG.myValue * 360, 50, 90);
-    image(pappeBG, 420 - (int)(cardWidth.myValue * 360)/5, 200 - (int)(cardHeight.myValue * 360)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 360));
-    }else if (tabButtonTest.activeTab == 2){
-    tint(sliderTestBG.myValue * 360, 50, 90);
-    image(woodBG, 420 - (int)(cardWidth.myValue * 360)/5, 200 - (int)(cardHeight.myValue * 360)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 360));
-    }
-    else
-    {
-    rectMode(CORNER);
-    myCard = new card(420 - (int)(cardWidth.myValue * 360)/5, 200 - (int)(cardHeight.myValue * 360)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 360),10);
-    myCard.draw();  
+    if (tabButtonTest.activeTab == 0) {
+      image(metallBG, 420 - (int)(cardWidth.myValue * 360)/5, 200 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
+    } else if (tabButtonTest.activeTab == 1) {
+      image(pappeBG, 420 - (int)(cardWidth.myValue * 360)/5, 200 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
+    } else if (tabButtonTest.activeTab == 2) {
+      image(woodBG, 420 - (int)(cardWidth.myValue * 360)/5, 200 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
+    } else {
+      tint(sliderTestBG.myValue * 360, 50, 90);
+      rectMode(CORNER);
+      myCard = new card(420 - (int)(cardWidth.myValue * 360)/5, 200 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180),10);
+      myCard.draw();  
     }
     imageMode(CENTER);
     tint(sliderTest.myValue * 360, 50, 90);
