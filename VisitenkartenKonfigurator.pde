@@ -1,6 +1,7 @@
 ArrayList<dragText> dragTextList = new ArrayList<dragText>();
 textField textFieldTest;
 card myCard;
+card transCard;
 button changePage;
 button addDragText;
 tabButton tabButtonTest;
@@ -24,20 +25,22 @@ void setup()
   size(1024,768);   
   scene = 0;
   String[] tabLabels = {"metall", "carton", "glass", "paper"}; 
-  tabButtonTest = new tabButton(420, 580, 4, 500, 30, tabLabels);  //erzeugt ein tabButton Objekt mit an x: 720, y: 500, Anzahl der Tabs: 4, Breite: 202, Höhe: 30 und den in obigem Array gespreicherten Text Labels
-  tabButtonTest.activeTab = 3;  
-  sliderTest = new slider(100, 220, 200, 20);                      //erzeugt ein slider Objekt mit an x: 720, y: 450, Breite: 200, Höhe: 20 
-  sliderTest.myValue = 0.5; 
-  sliderTestBG = new slider(100, 120, 200, 20);
-  sliderTestBG.myValue = 0.5;
-  cardWidth = new slider(750,120,200,20);
-  cardWidth.myValue = 0;
-  cardHeight = new slider(750,220,200,20);
-  cardHeight.myValue = 0;
-  textFieldTest = new textField(420, 500, 200, 40, "test");  
+  tabButtonTest = new tabButton(350, 580, 4, 500, 30, tabLabels);
+  tabButtonTest.activeTab = 3; 
   
-  changePage = new button(800,700,170,44, "Edit Etui");
-  addDragText = new button(500,400,170,44, "Add Text");
+  transCard = new card(780, 40, 230, 400, 10);
+  cardWidth = new slider(795, 100, 200, 20);
+  cardWidth.myValue = 0.5;
+  cardHeight = new slider(795, 200, 200, 20);
+  cardHeight.myValue = 0.25;  
+  sliderTestBG = new slider(795, 300, 200, 20);
+  sliderTestBG.myValue = 0.5;
+  sliderTest = new slider(795, 400, 200, 20);
+  sliderTest.myValue = 0.5; 
+  textFieldTest = new textField(350, 500, 200, 40, "test");  
+  
+  changePage = new button(828,702,170,40, "Edit Etui");
+  addDragText = new button(600,500,170,40, "Add Text");
   
   myFontUI = createFont("lmmono10-regular.otf", 32);   
   metallBG = loadImage("metallBG.jpg");
@@ -60,47 +63,51 @@ void draw()
     colorMode(HSB, 360, 100, 100);  
     imageMode(CORNER);
     noTint();
-    image(bottom, -180, -200, 1022*1.5, 680*1.5);  
+    image(bottom, -210, -115, 1022*1.3, 680*1.3);  
     pushStyle();  
     fill(sliderTestBG.myValue * 360, 50, 90);
     if (tabButtonTest.activeTab == 0) {
-      image(metallBG, 420 - (int)(cardWidth.myValue * 360)/5, 200 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
+      image(metallBG, 340 - (int)(cardWidth.myValue * 360)/5, 180 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
     } else if (tabButtonTest.activeTab == 1) {
-      image(pappeBG, 420 - (int)(cardWidth.myValue * 360)/5, 200 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
+      image(pappeBG, 340 - (int)(cardWidth.myValue * 360)/5, 180 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
     } else if (tabButtonTest.activeTab == 2) {
-      image(woodBG, 420 - (int)(cardWidth.myValue * 360)/5, 200 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
+      image(woodBG, 340 - (int)(cardWidth.myValue * 360)/5, 180 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
     } else {
       tint(sliderTestBG.myValue * 360, 50, 90);
       rectMode(CORNER);
-      myCard = new card(420 - (int)(cardWidth.myValue * 360)/5, 200 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180),10);
+      myCard = new card(320 - (int)(cardWidth.myValue * 360)/5, 180 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180),10);
       myCard.draw();  
     }
     imageMode(CENTER);
     tint(sliderTest.myValue * 360, 50, 90);
     
     ii.draw();
+    for(int i = 0; i < dragTextList.size(); i++) {
+    dragTextList.get(i).draw();
+    }
     
     textAlign(CENTER);
     
-    fill(0);
-    text("Background", 182, 100);
-    text("Width", 790, 100);
-    text("Height", 800, 200);
-        
+    fill(0, 0, 100, 150);
+    transCard.draw();
+    
+    fill(0);    
+    text("Width", 834, 80);
+    text("Height", 842, 180);
+    text("Background", 874, 280);
+    text("Design", 842, 380);
+    
     popStyle();  
-    image(topHand, -180, -200, 1022*1.5, 680*1.5);  
-    tabButtonTest.draw();    
+    image(topHand, -210, -115, 1022*1.3, 680*1.3);  
+    tabButtonTest.draw();       
     sliderTest.draw();
     sliderTestBG.draw();
     cardWidth.draw();
     cardHeight.draw();
-    textFieldTest.draw();
-    
+    textFieldTest.draw();    
     addDragText.draw();
     
-    for(int i = 0; i < dragTextList.size(); i++) {
-    dragTextList.get(i).draw();
-    }
+    
     
     if (addDragText.pressed == 1)
     {
