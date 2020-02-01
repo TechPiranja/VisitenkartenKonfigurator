@@ -4,20 +4,20 @@ card myCard;
 button changePage;
 button addDragText;
 tabButton tabButtonTest;
-dragText testt;
-
 slider sliderTest; 
 slider sliderTestBG; 
 slider cardWidth;
 slider cardHeight;
 PFont myFontUI; 
-PImage apple; 
 PImage bottom;
 PImage metallBG;
 PImage pappeBG;
 PImage woodBG;
 PImage topHand;
 int scene;
+PImage apple;
+
+dragImage ii;
 
 void setup()
 {
@@ -40,12 +40,13 @@ void setup()
   addDragText = new button(500,400,170,44, "Add Text");
   
   myFontUI = createFont("lmmono10-regular.otf", 32);   
-  apple = loadImage("apple.png");  
   metallBG = loadImage("metallBG.jpg");
   pappeBG = loadImage("pappeBG.jpg");
   woodBG = loadImage("woodBG.jpg");
   bottom = loadImage("bottom.jpg");
-  topHand = loadImage("TopHand.png");
+  topHand = loadImage("TopHand.png");  
+  apple = loadImage("apple.png");
+  ii = new dragImage(530, 310, 428/5, 525/5, "apple.png");
 }
 
 void draw()
@@ -76,7 +77,9 @@ void draw()
     }
     imageMode(CENTER);
     tint(sliderTest.myValue * 360, 50, 90);
-    image(apple, 530, 310, 428/(3 /cardWidth.myValue), 525/(3/cardWidth.myValue));
+    
+    ii.draw();
+    
     textAlign(CENTER);
     
     fill(0);
@@ -103,7 +106,6 @@ void draw()
     {
       dragText t = new dragText(800, 400, textFieldTest.myText);
       dragTextList.add(t);
-      print(dragTextList.size());
       addDragText.pressed = 0;
     }
   }
@@ -137,6 +139,8 @@ void mousePressed()
   changePage.mousePressed();
   addDragText.mousePressed();
   
+  ii.mousePressed();
+  
   for(int i = 0; i < dragTextList.size(); i++) {
     dragTextList.get(i).mousePressed();
   }
@@ -154,6 +158,9 @@ void mouseDragged() {
   sliderTestBG.mouseDragged();
   cardWidth.mouseDragged();
   cardHeight.mouseDragged();
+  
+  ii.mouseDragged();
+  
   for(int i = 0; i < dragTextList.size(); i++) {
     dragTextList.get(i).mouseDragged();
   }
@@ -164,6 +171,9 @@ void mouseReleased() {
   sliderTestBG.mouseReleased();
   cardWidth.mouseReleased();
   cardHeight.mouseReleased();
+  
+  ii.mouseReleased();
+  
   for(int i = 0; i < dragTextList.size(); i++) {
     dragTextList.get(i).mouseReleased();
   }
