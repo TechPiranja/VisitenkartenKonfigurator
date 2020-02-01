@@ -14,7 +14,6 @@ class card {
   }
   
   void draw() {
-  rectMode(CENTER);
   noStroke();  
   rect(xPos,yPos,myWidth,myHeight,corner);
   }

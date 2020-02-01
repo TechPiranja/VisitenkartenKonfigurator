@@ -28,9 +28,9 @@ void setup()
   sliderTestBG = new slider(100, 120, 200, 20);
   sliderTestBG.myValue = 0.5;
   cardWidth = new slider(750,120,200,20);
-  cardWidth.myValue = 0.5;
+  cardWidth.myValue = 0;
   cardHeight = new slider(750,220,200,20);
-  cardHeight.myValue = 0.5;
+  cardHeight.myValue = 0;
   textFieldTest = new textField(420, 500, 200, 40, "test");  
   myButton = new button(800,700,170,44, "Edit Etui");
   myFontUI = createFont("lmmono10-regular.otf", 32);   
@@ -56,21 +56,21 @@ void draw()
     image(bottom, -180, -200, 1022*1.5, 680*1.5);  
     pushStyle();  
     fill(sliderTestBG.myValue * 360, 50, 90);
-    imageMode(CENTER);
     if (tabButtonTest.activeTab == 0)
     {
     tint(sliderTestBG.myValue * 360, 50, 90);
-    image(metallBG, 512,300, 10 + (int)(cardWidth.myValue * 360),10 + (int)(cardHeight.myValue * 360));
+    image(metallBG, 420 - (int)(cardWidth.myValue * 360)/5, 200 - (int)(cardHeight.myValue * 360)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 360));
     }else if (tabButtonTest.activeTab == 1){
     tint(sliderTestBG.myValue * 360, 50, 90);
-    image(pappeBG, 512,300, 10 + (int)(cardWidth.myValue * 360),10 + (int)(cardHeight.myValue * 360));
+    image(pappeBG, 420 - (int)(cardWidth.myValue * 360)/5, 200 - (int)(cardHeight.myValue * 360)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 360));
     }else if (tabButtonTest.activeTab == 2){
     tint(sliderTestBG.myValue * 360, 50, 90);
-    image(woodBG, 512,300, 10 + (int)(cardWidth.myValue * 360),10 + (int)(cardHeight.myValue * 360));
+    image(woodBG, 420 - (int)(cardWidth.myValue * 360)/5, 200 - (int)(cardHeight.myValue * 360)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 360));
     }
     else
     {
-    myCard = new card(512,300, 10 + (int)(cardWidth.myValue * 360),10 + (int)(cardHeight.myValue * 360),10);
+    rectMode(CORNER);
+    myCard = new card(420 - (int)(cardWidth.myValue * 360)/5, 200 - (int)(cardHeight.myValue * 360)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 360),10);
     myCard.draw();  
     }
     imageMode(CENTER);
