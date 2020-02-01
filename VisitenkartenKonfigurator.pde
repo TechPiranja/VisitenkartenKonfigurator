@@ -9,9 +9,11 @@ slider cardWidth;
 slider cardHeight;
 PFont myFontUI; 
 PImage apple; 
+PImage bottom;
 PImage metallBG;
 PImage pappeBG;
 PImage woodBG;
+PImage topHand;
 int scene;
 
 void setup()
@@ -36,6 +38,8 @@ void setup()
   metallBG = loadImage("metallBG.jpg");
   pappeBG = loadImage("pappeBG.jpg");
   woodBG = loadImage("woodBG.jpg");
+  bottom = loadImage("bottom.jpg");
+  topHand = loadImage("TopHand.png");
 }
 
 void draw()
@@ -49,7 +53,7 @@ void draw()
     colorMode(HSB, 360, 100, 100);  
     imageMode(CORNER);
     noTint();
-    
+    image(bottom, -180, -200, 1022*1.5, 680*1.5);  
     pushStyle();  
     fill(sliderTestBG.myValue * 360, 50, 90);
     imageMode(CENTER);
@@ -79,19 +83,18 @@ void draw()
     text("Width", 790, 100);
     text("Height", 800, 200);
     
-    
     text(textFieldTest.myText, 500, 330);
     popStyle();  
-    
-    
+    image(topHand, -180, -200, 1022*1.5, 680*1.5);  
     tabButtonTest.draw();    
     sliderTest.draw();
     sliderTestBG.draw();
     cardWidth.draw();
     cardHeight.draw();
     textFieldTest.draw();
-    
-    myButton.draw();
+  }
+  
+  myButton.draw();
   if (myButton.pressed == 1)
     {
       if (scene == 0)
@@ -100,7 +103,7 @@ void draw()
       scene = 0;
       myButton.pressed = 0;
     }
-  }
+  
 }
 
 boolean insideRect(int xPos, int yPos, int targetXPos, int targetYPos, int targetWidth, int targetHeight) {
