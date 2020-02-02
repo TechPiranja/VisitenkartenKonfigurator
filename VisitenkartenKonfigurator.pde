@@ -19,6 +19,8 @@ PImage topHand;
 int scene;
 PImage apple;
 
+PImage test;
+PGraphics maskImage;
 dragImage ii;
 
 void setup()
@@ -51,7 +53,13 @@ void setup()
   bottom = loadImage("bottom.jpg");
   topHand = loadImage("TopHand.png");  
   apple = loadImage("apple.png");
-  ii = new dragImage(530, 310, 428/5, 525/5, "apple.png");
+  ii = new dragImage(530, 310, 428/5, 525/5, "wApple.png");  
+  
+  maskImage = createGraphics(200,220);
+  maskImage.beginDraw();
+  maskImage.rect(500, 350, 400, 300);
+  maskImage.endDraw();
+  apple.resize(200, 220);
 }
 
 void draw()
@@ -66,6 +74,8 @@ void draw()
     imageMode(CORNER);
     noTint();
     image(bottom, -210, -115, 1022*1.3, 680*1.3);  
+    test = get(mouseX, mouseY, 200, 220);
+    
     pushStyle();  
     fill(sliderTestBG.myValue * 360, 50, 90);
     if (tabButtonTest.activeTab == 0) {
@@ -83,7 +93,13 @@ void draw()
     imageMode(CENTER);
     tint(sliderTest.myValue * 360, 50, 90);
     
+    
+    apple.mask(maskImage);
+    test.mask(apple);  
     ii.draw();
+    noTint();
+    image(test, mouseX, mouseY, 200, 220);
+    
     for(int i = 0; i < dragTextList.size(); i++) {
     dragTextList.get(i).draw();
     }
@@ -94,7 +110,8 @@ void draw()
     transCard.draw();
     transCard2.draw();
     
-    fill(0);    
+    fill(0);   
+    textSize(32);
     text("Width", 834, 130);
     text("Height", 842, 230);
     text("Background", 874, 330);
@@ -108,10 +125,8 @@ void draw()
     cardWidth.draw();
     cardHeight.draw();
     textFieldTest.draw();    
-    addDragText.draw();
-    
-    
-    
+    addDragText.draw();   
+        
     if (addDragText.pressed == 1)
     {
       dragText t = new dragText(400, 250, textFieldTest.myText);
