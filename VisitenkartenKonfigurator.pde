@@ -2,6 +2,7 @@ ArrayList<dragText> dragTextList = new ArrayList<dragText>();
 textField textFieldTest;
 card myCard;
 card transCard;
+card transCard2;
 button changePage;
 button addDragText;
 tabButton tabButtonTest;
@@ -25,27 +26,28 @@ void setup()
   size(1024,768);   
   scene = 0;
   String[] tabLabels = {"metall", "carton", "glass", "paper"}; 
-  tabButtonTest = new tabButton(350, 580, 4, 500, 30, tabLabels);
+  tabButtonTest = new tabButton(350, 630, 4, 500, 30, tabLabels);
   tabButtonTest.activeTab = 3; 
   
-  transCard = new card(780, 40, 230, 400, 10);
-  cardWidth = new slider(795, 100, 200, 20);
+  transCard = new card(780, 90, 230, 400, 10);
+  transCard2 = new card(332, 530, 677, 225, 10);
+  cardWidth = new slider(795, 150, 200, 20);
   cardWidth.myValue = 0.5;
-  cardHeight = new slider(795, 200, 200, 20);
+  cardHeight = new slider(795, 250, 200, 20);
   cardHeight.myValue = 0.25;  
-  sliderTestBG = new slider(795, 300, 200, 20);
+  sliderTestBG = new slider(795, 350, 200, 20);
   sliderTestBG.myValue = 0.5;
-  sliderTest = new slider(795, 400, 200, 20);
+  sliderTest = new slider(795, 450, 200, 20);
   sliderTest.myValue = 0.5; 
-  textFieldTest = new textField(350, 500, 200, 40, "test");  
+  textFieldTest = new textField(350, 560, 200, 40, "test");  
   
   changePage = new button(828,702,170,40, "Edit Etui");
-  addDragText = new button(600,500,170,40, "Add Text");
+  addDragText = new button(600,560,170,40, "Add Text");
   
   myFontUI = createFont("lmmono10-regular.otf", 32);   
   metallBG = loadImage("metallBG.jpg");
   pappeBG = loadImage("pappeBG.jpg");
-  woodBG = loadImage("woodBG.jpg");
+  woodBG = loadImage("glass.png");
   bottom = loadImage("bottom.jpg");
   topHand = loadImage("TopHand.png");  
   apple = loadImage("apple.png");
@@ -67,11 +69,11 @@ void draw()
     pushStyle();  
     fill(sliderTestBG.myValue * 360, 50, 90);
     if (tabButtonTest.activeTab == 0) {
-      image(metallBG, 340 - (int)(cardWidth.myValue * 360)/5, 180 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
+      image(metallBG, 320 - (int)(cardWidth.myValue * 360)/5, 180 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
     } else if (tabButtonTest.activeTab == 1) {
-      image(pappeBG, 340 - (int)(cardWidth.myValue * 360)/5, 180 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
+      image(pappeBG, 320 - (int)(cardWidth.myValue * 360)/5, 180 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
     } else if (tabButtonTest.activeTab == 2) {
-      image(woodBG, 340 - (int)(cardWidth.myValue * 360)/5, 180 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
+      image(woodBG, 320 - (int)(cardWidth.myValue * 360)/5, 180 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
     } else {
       tint(sliderTestBG.myValue * 360, 50, 90);
       rectMode(CORNER);
@@ -90,12 +92,13 @@ void draw()
     
     fill(0, 0, 100, 150);
     transCard.draw();
+    transCard2.draw();
     
     fill(0);    
-    text("Width", 834, 80);
-    text("Height", 842, 180);
-    text("Background", 874, 280);
-    text("Design", 842, 380);
+    text("Width", 834, 130);
+    text("Height", 842, 230);
+    text("Background", 874, 330);
+    text("Design", 842, 430);
     
     popStyle();  
     image(topHand, -210, -115, 1022*1.3, 680*1.3);  
@@ -111,7 +114,7 @@ void draw()
     
     if (addDragText.pressed == 1)
     {
-      dragText t = new dragText(800, 400, textFieldTest.myText);
+      dragText t = new dragText(400, 250, textFieldTest.myText);
       dragTextList.add(t);
       addDragText.pressed = 0;
     }
