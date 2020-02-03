@@ -45,10 +45,10 @@ void setup()
   size(1024,768, P3D);   
   scene = 0;
   String[] tabLabels = {"metall", "carton", "glass", "paper"}; 
-  String[] colorLabels = {"S", "G"}; 
+  String[] colorLabels = {"Silver", "RGB"}; 
   tabButtonTest = new tabButton(350, 630, 4, 500, 30, tabLabels);
   tabButtonTest.activeTab = 3; 
-  etuiColorTab = new tabButton(700, 150, 2, 100, 30, colorLabels);
+  etuiColorTab = new tabButton(700, 100, 2, 250, 30, colorLabels);
   etuiColorTab.activeTab = 0;
   
   toggleMask = new toggleButton(500, 702);
@@ -137,8 +137,7 @@ void draw()
     }
     for(int i = 0; i < dragImageList.size(); i++) {
     dragImageList.get(i).draw();
-    }
-    
+    }    
     
     textAlign(CENTER);
     
@@ -196,10 +195,8 @@ void draw()
     vertex(446, 415, 150 + (int)(cardWidth.myValue * 360), 0);
     endShape();
     
-    //text(mouseX, 100, 100);
-    //text(mouseY, 100, 120);
     colorMode(HSB, 360, 100, 100);  
-    tint(etuiColor.myValue * 360, 50, 90);
+    if (etuiColorTab.activeTab == 1) tint(etuiColor.myValue * 360, 50, 90);
     image(etuiWhole, 50, 70, 920, 600);
     noTint();
     noStroke();
@@ -211,12 +208,15 @@ void draw()
     vertex(447, 250, 150 + (int)(cardWidth.myValue * 360), 0);
     endShape();
     colorMode(HSB, 360, 100, 100);  
-    tint(etuiColor.myValue * 360, 50, 90);
+    if (etuiColorTab.activeTab == 1) tint(etuiColor.myValue * 360, 50, 90);
     image(etuiTop, 50, 70, 920, 600);  
     image(etuiTopClap, 50, 70, 920, 600);  
     
+    pushMatrix();
+    translate(200,-300);
     addDragText.draw();  
     textFieldTest.draw();   
+    popMatrix();
     
     for(int i = 0; i < dragTextListEtui.size(); i++) {
     dragTextListEtui.get(i).draw();
