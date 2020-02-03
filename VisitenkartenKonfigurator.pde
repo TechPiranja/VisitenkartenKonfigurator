@@ -17,7 +17,7 @@ PImage pappeBG;
 PImage woodBG;
 PImage topHand;
 int scene;
-PImage apple;
+PImage circle;
 
 PImage test;
 PGraphics maskImage;
@@ -52,14 +52,13 @@ void setup()
   woodBG = loadImage("glass.png");
   bottom = loadImage("bottom.jpg");
   topHand = loadImage("TopHand.png");  
-  apple = loadImage("apple.png");
-  ii = new dragImage(530, 310, 428/5, 525/5, "wApple.png");  
+  circle = loadImage("circle.png");
+  ii = new dragImage(530, 310, 100, 100, "circle.png");  
   
-  maskImage = createGraphics(200,220);
+  maskImage = createGraphics(100,100);
   maskImage.beginDraw();
   maskImage.rect(500, 350, 400, 300);
   maskImage.endDraw();
-  apple.resize(200, 220);
 }
 
 void draw()
@@ -74,7 +73,7 @@ void draw()
     imageMode(CORNER);
     noTint();
     image(bottom, -210, -115, 1022*1.3, 680*1.3);  
-    test = get(mouseX, mouseY, 200, 220);
+    test = get(mouseX, mouseY, 100, 100);
     
     pushStyle();  
     fill(sliderTestBG.myValue * 360, 50, 90);
@@ -94,11 +93,11 @@ void draw()
     tint(sliderTest.myValue * 360, 50, 90);
     
     
-    apple.mask(maskImage);
-    test.mask(apple);  
+    circle.mask(maskImage);
+    test.mask(circle);  
     ii.draw();
     noTint();
-    image(test, mouseX, mouseY, 200, 220);
+    image(test, mouseX, mouseY, 100, 100);
     
     for(int i = 0; i < dragTextList.size(); i++) {
     dragTextList.get(i).draw();
