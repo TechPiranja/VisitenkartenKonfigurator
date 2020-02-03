@@ -39,4 +39,9 @@ class button {
         pressed = 1;
       }
   }
+  
+  void changeLabel(String label)
+  {
+    this.label = label;
+  }
 }

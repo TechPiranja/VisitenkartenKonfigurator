@@ -8,6 +8,7 @@ toggleButton toggleMask;
 card myCard;
 card transCard;
 card transCard2;
+card transCard3;
 
 button changePage;
 button addDragText;
@@ -48,13 +49,15 @@ void setup()
   String[] colorLabels = {"Silver", "RGB"}; 
   tabButtonTest = new tabButton(350, 630, 4, 500, 30, tabLabels);
   tabButtonTest.activeTab = 3; 
-  etuiColorTab = new tabButton(700, 100, 2, 250, 30, colorLabels);
+  etuiColorTab = new tabButton(608, 100, 2, 250, 30, colorLabels);
   etuiColorTab.activeTab = 0;
   
   toggleMask = new toggleButton(500, 702);
   
   transCard = new card(780, 90, 230, 400, 10);
   transCard2 = new card(332, 530, 677, 225, 10);
+  transCard3 = new card(590, 40, 400, 258, 10);
+  
   cardWidth = new slider(795, 150, 200, 12, false);
   cardWidth.myValue = 0.5;
   cardHeight = new slider(795, 250, 200, 12, false);
@@ -63,13 +66,13 @@ void setup()
   sliderTestBG.myValue = 0.5;
   sliderTest = new slider(795, 450, 200, 12, true);
   sliderTest.myValue = 0.5; 
-  etuiColor = new slider(700, 200, 200, 12, true);
+  etuiColor = new slider(608, 150, 200, 12, true);
   etuiColor.myValue = 0;
-  textFieldTest = new textField(350, 560, 200, 40, "test");  
+  textFieldTest = new textField(360, 560, 200, 40, "test");    
   
-  changePage = new button(828,702,170,40, "Edit Etui");
-  addDragText = new button(600,560,170,40, "Add Text");
-  addDragImage = new button(600, 702, 170, 40, "Add Image");
+  addDragText = new button(600,560,120,40, "Add Text");
+  addDragImage = new button(600, 702, 120, 40, "Add Image");
+  changePage = new button(945,702,50,40, ">");
   
   myFontUI = createFont("lmmono10-regular.otf", 32);   
   metallBG = loadImage("metallBG.jpg");
@@ -92,13 +95,18 @@ void setup()
 }
 
 void draw()
-{      
+{        
   colorMode(RGB, 255, 255, 255);
   background(255); 
-      
+  changePage.changeLabel(scene == 0 ? ">" : "<");
   //------------------------ SCENE 0 ------------------------
   if (scene == 0)
   {    
+    addDragText.xPos = 600;
+    addDragText.yPos = 560;
+    textFieldTest.xPos = 360;
+    textFieldTest.yPos = 560;
+    
     colorMode(HSB, 360, 100, 100);  
     imageMode(CORNER);
     noTint();
@@ -143,7 +151,7 @@ void draw()
     
     fill(0, 0, 100, 150);
     transCard.draw();
-    transCard2.draw();
+    transCard2.draw();    
     
     fill(0);   
     textSize(32);
@@ -185,7 +193,7 @@ void draw()
     noTint();
     image(etui, 50, 70, 920, 600);  
     etuiColorTab.draw();    
-    etuiColor.draw();
+    if (etuiColorTab.activeTab == 1) etuiColor.draw();
     noStroke();
     beginShape();
     texture(curCard);
@@ -212,21 +220,31 @@ void draw()
     image(etuiTop, 50, 70, 920, 600);  
     image(etuiTopClap, 50, 70, 920, 600);  
     
-    pushMatrix();
-    translate(200,-300);
+    fill(0, 0, 0, 20);
+    transCard3.draw();
+    addDragText.xPos = 600 + 250;
+    addDragText.yPos = 560 - 335;
+    textFieldTest.xPos = 360 + 250;
+    textFieldTest.yPos = 560 - 335;
     addDragText.draw();  
-    textFieldTest.draw();   
-    popMatrix();
+    textFieldTest.draw();  
+    
+    text("Color", 608, 75);
+    text("Gravur", 608, 210);
     
     for(int i = 0; i < dragTextListEtui.size(); i++) {
-    dragTextListEtui.get(i).draw();
+      pushMatrix();
+      //rotate(-0.2);
+      dragTextListEtui.get(i).draw();
+      popMatrix();
     }
     
     if (addDragText.pressed == 1)
     {
-      dragText t = new dragText(400, 250, textFieldTest.myText);
+      dragText t = new dragText(700, 400, textFieldTest.myText);
       dragTextListEtui.add(t);
       addDragText.pressed = 0;
+      print("test");
     }    
   }
   
