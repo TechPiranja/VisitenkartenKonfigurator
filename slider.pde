@@ -8,12 +8,13 @@ class slider {
   color forgroundColor = color(200, 200, 200);
   float myValue = 1.0;
   boolean dragState = false;
-
-  slider(int xPos, int yPos, int myWidth, int myHeight) {
+  boolean colored = false;
+  slider(int xPos, int yPos, int myWidth, int myHeight, boolean colored) {
     this.xPos = xPos;
     this.yPos = yPos;
     this.myWidth = myWidth;
     this.myHeight = myHeight;
+    this.colored = colored;
   }
 
   void draw() {
@@ -22,12 +23,15 @@ class slider {
     noStroke();
     fill(backgroundColor);
     rect(0, 0, myWidth, myHeight);
-    drawColorgradient();
-    fill(forgroundColor);
+    if (colored)
+    {
+      drawColorgradient();
+      fill(forgroundColor);
+      colorMode(HSB, 1, 100, 100);
+      fill(myValue, 50, 90);
+    }        
     stroke(backgroundColor);
-    strokeWeight(2);
-    colorMode(HSB, 1, 100, 100);
-    fill(myValue, 50, 90);
+    strokeWeight(2);    
     rect(0 + (myWidth - myHeight) * myValue, 0 - myHeight * 0.5, myHeight, myHeight*2, 5);
     popMatrix();
   }

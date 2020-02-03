@@ -1,4 +1,5 @@
 ArrayList<dragText> dragTextList = new ArrayList<dragText>();
+ArrayList<dragText> dragTextListEtui = new ArrayList<dragText>();
 textField textFieldTest;
 
 card myCard;
@@ -9,11 +10,13 @@ button changePage;
 button addDragText;
 
 tabButton tabButtonTest;
+tabButton etuiColorTab;
 
 slider sliderTest; 
 slider sliderTestBG; 
 slider cardWidth;
 slider cardHeight;
+slider etuiColor;
 
 PFont myFontUI; 
 
@@ -27,6 +30,7 @@ PImage circle;
 //2 Scene
 PImage etui;
 PImage etuiTop;
+PImage etuiWhole;
 PImage etuiTopClap;
 PImage curCard;
 
@@ -40,19 +44,24 @@ void setup()
   size(1024,768, P3D);   
   scene = 0;
   String[] tabLabels = {"metall", "carton", "glass", "paper"}; 
+  String[] colorLabels = {"S", "G"}; 
   tabButtonTest = new tabButton(350, 630, 4, 500, 30, tabLabels);
   tabButtonTest.activeTab = 3; 
+  etuiColorTab = new tabButton(700, 150, 2, 100, 30, colorLabels);
+  etuiColorTab.activeTab = 0;
   
   transCard = new card(780, 90, 230, 400, 10);
   transCard2 = new card(332, 530, 677, 225, 10);
-  cardWidth = new slider(795, 150, 200, 20);
+  cardWidth = new slider(795, 150, 200, 12, false);
   cardWidth.myValue = 0.5;
-  cardHeight = new slider(795, 250, 200, 20);
+  cardHeight = new slider(795, 250, 200, 12, false);
   cardHeight.myValue = 0.25;  
-  sliderTestBG = new slider(795, 350, 200, 20);
+  sliderTestBG = new slider(795, 350, 200, 12, true);
   sliderTestBG.myValue = 0.5;
-  sliderTest = new slider(795, 450, 200, 20);
+  sliderTest = new slider(795, 450, 200, 12, true);
   sliderTest.myValue = 0.5; 
+  etuiColor = new slider(700, 200, 200, 12, true);
+  etuiColor.myValue = 0;
   textFieldTest = new textField(350, 560, 200, 40, "test");  
   
   changePage = new button(828,702,170,40, "Edit Etui");
@@ -69,6 +78,7 @@ void setup()
   //2 Scene
   etui = loadImage("etui.jpg");
   etuiTop = loadImage("etuiTop.png");
+  etuiWhole = loadImage("etuiWhole.png");
   etuiTopClap = loadImage("etuiTopClap.png");
   
   ii = new dragImage(530, 310, 100, 100, "circle.png", true);  
@@ -82,6 +92,7 @@ void draw()
   colorMode(RGB, 255, 255, 255);
   background(255); 
       
+  //------------------------ SCENE 0 ------------------------
   if (scene == 0)
   {    
     colorMode(HSB, 360, 100, 100);  
@@ -113,6 +124,7 @@ void draw()
     //circle.mask(maskImage);
     //test.mask(circle);  
     ii.draw();
+    tint(sliderTest.myValue * 360, 50, 90);
     ii2.draw();
     
     //image(test, mouseX, mouseY,100, 100);
@@ -144,8 +156,7 @@ void draw()
     cardWidth.draw();
     cardHeight.draw();
     textFieldTest.draw();    
-    addDragText.draw();   
-    
+    addDragText.draw();       
        
     if (addDragText.pressed == 1)
     {
@@ -154,10 +165,13 @@ void draw()
       addDragText.pressed = 0;
     }
   }
+  //------------------------ SCENE 1 ------------------------
   else
   {
+    noTint();
     image(etui, 50, 70, 920, 600);  
-    
+    etuiColorTab.draw();    
+    etuiColor.draw();
     noStroke();
     beginShape();
     texture(curCard);
@@ -167,6 +181,12 @@ void draw()
     vertex(446, 415, 150 + (int)(cardWidth.myValue * 360), 0);
     endShape();
     
+    //text(mouseX, 100, 100);
+    //text(mouseY, 100, 120);
+    colorMode(HSB, 360, 100, 100);  
+    tint(etuiColor.myValue * 360, 50, 90);
+    image(etuiWhole, 50, 70, 920, 600);
+    noTint();
     noStroke();
     beginShape();
     texture(curCard);
@@ -175,12 +195,25 @@ void draw()
     vertex(550, 325, 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
     vertex(447, 250, 150 + (int)(cardWidth.myValue * 360), 0);
     endShape();
-    
-    //text(mouseX, 100, 100);
-    //text(mouseY, 100, 120);
-    
+    colorMode(HSB, 360, 100, 100);  
+    tint(etuiColor.myValue * 360, 50, 90);
     image(etuiTop, 50, 70, 920, 600);  
     image(etuiTopClap, 50, 70, 920, 600);  
+    
+    addDragText.draw();  
+    textFieldTest.draw();   
+    
+    for(int i = 0; i < dragTextListEtui.size(); i++) {
+    dragTextListEtui.get(i).draw();
+    }
+    
+    if (addDragText.pressed == 1)
+    {
+      dragText t = new dragText(400, 250, textFieldTest.myText);
+      dragTextListEtui.add(t);
+      addDragText.pressed = 0;
+    }
+    
   }
   
   changePage.draw();
@@ -202,8 +235,8 @@ boolean insideRect(int xPos, int yPos, int targetXPos, int targetYPos, int targe
   return false;
 }
 
-void mousePressed()
-{
+void mousePressed() {
+  etuiColor.mousePressed();
   sliderTest.mousePressed();
   sliderTestBG.mousePressed();
   cardWidth.mousePressed();
@@ -218,9 +251,13 @@ void mousePressed()
   
   for(int i = 0; i < dragTextList.size(); i++) {
     dragTextList.get(i).mousePressed();
+  }  
+  for(int i = 0; i < dragTextListEtui.size(); i++) {
+    dragTextListEtui.get(i).mousePressed();
   }
   
   tabButtonTest.mousePressed();
+  etuiColorTab.mousePressed();
 }
 
 void keyPressed() {
@@ -228,6 +265,7 @@ void keyPressed() {
 }
 
 void mouseDragged() {
+  etuiColor.mouseDragged();
   sliderTest.mouseDragged();
   sliderTestBG.mouseDragged();
   cardWidth.mouseDragged();
@@ -240,9 +278,13 @@ void mouseDragged() {
   for(int i = 0; i < dragTextList.size(); i++) {
     dragTextList.get(i).mouseDragged();
   }
+  for(int i = 0; i < dragTextListEtui.size(); i++) {
+    dragTextListEtui.get(i).mouseDragged();
+  }
 }
 
 void mouseReleased() {
+  etuiColor.mouseReleased();
   sliderTest.mouseReleased();
   sliderTestBG.mouseReleased();
   cardWidth.mouseReleased();
@@ -254,5 +296,8 @@ void mouseReleased() {
   
   for(int i = 0; i < dragTextList.size(); i++) {
     dragTextList.get(i).mouseReleased();
+  }
+  for(int i = 0; i < dragTextListEtui.size(); i++) {
+    dragTextListEtui.get(i).mouseReleased();
   }
 }
