@@ -22,6 +22,7 @@ PImage circle;
 PImage test;
 PGraphics maskImage;
 dragImage ii;
+dragImage ii2;
 
 void setup()
 {
@@ -53,12 +54,9 @@ void setup()
   bottom = loadImage("bottom.jpg");
   topHand = loadImage("TopHand.png");  
   circle = loadImage("circle.png");
-  ii = new dragImage(530, 310, 100, 100, "circle.png");  
-  
-  maskImage = createGraphics(100,100);
-  maskImage.beginDraw();
-  maskImage.rect(500, 350, 400, 300);
-  maskImage.endDraw();
+  ii = new dragImage(530, 310, 100, 100, "circle.png", true);  
+  ii2 = new dragImage(300, 310, 100, 100, "circle.png", true);  
+  smooth(8);
 }
 
 void draw()
@@ -73,7 +71,9 @@ void draw()
     imageMode(CORNER);
     noTint();
     image(bottom, -210, -115, 1022*1.3, 680*1.3);  
-    test = get(mouseX, mouseY, 100, 100);
+    
+    ii.BGmask = get(ii.xPos, ii.yPos, 100, 100);
+    ii2.BGmask = get(ii2.xPos, ii2.yPos, 100, 100);
     
     pushStyle();  
     fill(sliderTestBG.myValue * 360, 50, 90);
@@ -93,11 +93,12 @@ void draw()
     tint(sliderTest.myValue * 360, 50, 90);
     
     
-    circle.mask(maskImage);
-    test.mask(circle);  
+    //circle.mask(maskImage);
+    //test.mask(circle);  
     ii.draw();
-    noTint();
-    image(test, mouseX, mouseY, 100, 100);
+    ii2.draw();
+    
+    //image(test, mouseX, mouseY,100, 100);
     
     for(int i = 0; i < dragTextList.size(); i++) {
     dragTextList.get(i).draw();
@@ -164,6 +165,7 @@ void mousePressed()
   addDragText.mousePressed();
   
   ii.mousePressed();
+  ii2.mousePressed();
   
   for(int i = 0; i < dragTextList.size(); i++) {
     dragTextList.get(i).mousePressed();
@@ -184,6 +186,7 @@ void mouseDragged() {
   cardHeight.mouseDragged();
   
   ii.mouseDragged();
+  ii2.mouseDragged();
   
   for(int i = 0; i < dragTextList.size(); i++) {
     dragTextList.get(i).mouseDragged();
@@ -196,6 +199,7 @@ void mouseReleased() {
   cardWidth.mouseReleased();
   cardHeight.mouseReleased();
   
+  ii.mouseReleased();
   ii.mouseReleased();
   
   for(int i = 0; i < dragTextList.size(); i++) {

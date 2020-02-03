@@ -34,7 +34,7 @@ class button {
   }
 
 
-  void mousePressed() { //<>//
+  void mousePressed() {
       if (insideRect(mouseX, mouseY, xPos, yPos, myWidth, myHeight)) { //<>//
         pressed = 1;
       }
