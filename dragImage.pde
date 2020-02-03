@@ -36,13 +36,15 @@ class dragImage {
     imageMode(CORNER);
     if (mask)
     {
+      pushStyle();
       img.mask(maskImage);
       BGmask.mask(circle);  
       noTint();
       image(BGmask, 0, 0, myWidth, myHeight);  
+      popStyle();
     }
     else
-      image(img, 0, 0, myWidth, myHeight);  
+    image(img, 0, 0, myWidth, myHeight);  
     popMatrix();
   }
     

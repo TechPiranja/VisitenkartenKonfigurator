@@ -1,6 +1,9 @@
 ArrayList<dragText> dragTextList = new ArrayList<dragText>();
 ArrayList<dragText> dragTextListEtui = new ArrayList<dragText>();
+ArrayList<dragImage> dragImageList = new ArrayList<dragImage>();
+
 textField textFieldTest;
+toggleButton toggleMask;
 
 card myCard;
 card transCard;
@@ -8,6 +11,7 @@ card transCard2;
 
 button changePage;
 button addDragText;
+button addDragImage;
 
 tabButton tabButtonTest;
 tabButton etuiColorTab;
@@ -36,9 +40,6 @@ PImage curCard;
 
 int scene;
 
-dragImage ii;
-dragImage ii2;
-
 void setup()
 {
   size(1024,768, P3D);   
@@ -49,6 +50,8 @@ void setup()
   tabButtonTest.activeTab = 3; 
   etuiColorTab = new tabButton(700, 150, 2, 100, 30, colorLabels);
   etuiColorTab.activeTab = 0;
+  
+  toggleMask = new toggleButton(500, 702);
   
   transCard = new card(780, 90, 230, 400, 10);
   transCard2 = new card(332, 530, 677, 225, 10);
@@ -66,6 +69,7 @@ void setup()
   
   changePage = new button(828,702,170,40, "Edit Etui");
   addDragText = new button(600,560,170,40, "Add Text");
+  addDragImage = new button(600, 702, 170, 40, "Add Image");
   
   myFontUI = createFont("lmmono10-regular.otf", 32);   
   metallBG = loadImage("metallBG.jpg");
@@ -81,8 +85,8 @@ void setup()
   etuiWhole = loadImage("etuiWhole.png");
   etuiTopClap = loadImage("etuiTopClap.png");
   
-  ii = new dragImage(530, 310, 100, 100, "circle.png", true);  
-  ii2 = new dragImage(300, 310, 100, 100, "circle.png", false);  
+  //ii = new dragImage(530, 310, 100, 100, "circle.png", true);  
+  //ii2 = new dragImage(300, 310, 100, 100, "circle.png", false);  
   smooth(8);
   textSize(30);
 }
@@ -100,8 +104,9 @@ void draw()
     noTint();
     image(bottom, -210, -115, 1022*1.3, 680*1.3);  
     
-    ii.BGmask = get(ii.xPos, ii.yPos, 100, 100);
-    ii2.BGmask = get(ii2.xPos, ii2.yPos, 100, 100);
+    for(int i = 0; i < dragImageList.size(); i++) {
+      dragImageList.get(i).BGmask = get(dragImageList.get(i).xPos, dragImageList.get(i).yPos, 100, 100);
+    }
     
     pushStyle();  
     fill(sliderTestBG.myValue * 360, 50, 90);
@@ -123,15 +128,17 @@ void draw()
     
     //circle.mask(maskImage);
     //test.mask(circle);  
-    ii.draw();
     tint(sliderTest.myValue * 360, 50, 90);
-    ii2.draw();
     
     //image(test, mouseX, mouseY,100, 100);
     
     for(int i = 0; i < dragTextList.size(); i++) {
     dragTextList.get(i).draw();
     }
+    for(int i = 0; i < dragImageList.size(); i++) {
+    dragImageList.get(i).draw();
+    }
+    
     
     textAlign(CENTER);
     
@@ -156,13 +163,21 @@ void draw()
     cardWidth.draw();
     cardHeight.draw();
     textFieldTest.draw();    
-    addDragText.draw();       
+    addDragText.draw();     
+    addDragImage.draw();
+    toggleMask.draw();
        
     if (addDragText.pressed == 1)
     {
       dragText t = new dragText(400, 250, textFieldTest.myText);
       dragTextList.add(t);
       addDragText.pressed = 0;
+    }
+    if (addDragImage.pressed == 1)
+    {
+      dragImage i = new dragImage(530, 310, 100, 100, "circle.png", toggleMask.myStateActive); 
+      dragImageList.add(i);
+      addDragImage.pressed = 0;
     }
   }
   //------------------------ SCENE 1 ------------------------
@@ -212,8 +227,7 @@ void draw()
       dragText t = new dragText(400, 250, textFieldTest.myText);
       dragTextListEtui.add(t);
       addDragText.pressed = 0;
-    }
-    
+    }    
   }
   
   changePage.draw();
@@ -236,6 +250,7 @@ boolean insideRect(int xPos, int yPos, int targetXPos, int targetYPos, int targe
 }
 
 void mousePressed() {
+  toggleMask.mousePressed();
   etuiColor.mousePressed();
   sliderTest.mousePressed();
   sliderTestBG.mousePressed();
@@ -244,10 +259,7 @@ void mousePressed() {
   textFieldTest.mousePressed();
   changePage.mousePressed();
   addDragText.mousePressed();
-  
-  //make list out of them!
-  ii.mousePressed();
-  ii2.mousePressed();
+  addDragImage.mousePressed();
   
   for(int i = 0; i < dragTextList.size(); i++) {
     dragTextList.get(i).mousePressed();
@@ -255,6 +267,9 @@ void mousePressed() {
   for(int i = 0; i < dragTextListEtui.size(); i++) {
     dragTextListEtui.get(i).mousePressed();
   }
+  for(int i = 0; i < dragImageList.size(); i++) {
+    dragImageList.get(i).mousePressed();
+  } 
   
   tabButtonTest.mousePressed();
   etuiColorTab.mousePressed();
@@ -269,11 +284,7 @@ void mouseDragged() {
   sliderTest.mouseDragged();
   sliderTestBG.mouseDragged();
   cardWidth.mouseDragged();
-  cardHeight.mouseDragged();
-  
-  //make list out of them!
-  ii.mouseDragged();
-  ii2.mouseDragged();
+  cardHeight.mouseDragged();  
   
   for(int i = 0; i < dragTextList.size(); i++) {
     dragTextList.get(i).mouseDragged();
@@ -281,6 +292,9 @@ void mouseDragged() {
   for(int i = 0; i < dragTextListEtui.size(); i++) {
     dragTextListEtui.get(i).mouseDragged();
   }
+  for(int i = 0; i < dragImageList.size(); i++) {
+    dragImageList.get(i).mouseDragged();
+  } 
 }
 
 void mouseReleased() {
@@ -290,14 +304,13 @@ void mouseReleased() {
   cardWidth.mouseReleased();
   cardHeight.mouseReleased();
   
-  //make list out of them!
-  ii.mouseReleased();
-  ii2.mouseReleased();
-  
   for(int i = 0; i < dragTextList.size(); i++) {
     dragTextList.get(i).mouseReleased();
   }
   for(int i = 0; i < dragTextListEtui.size(); i++) {
     dragTextListEtui.get(i).mouseReleased();
   }
+  for(int i = 0; i < dragImageList.size(); i++) {
+    dragImageList.get(i).mouseReleased();
+  } 
 }
