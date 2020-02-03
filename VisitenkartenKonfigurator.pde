@@ -1,32 +1,43 @@
 ArrayList<dragText> dragTextList = new ArrayList<dragText>();
 textField textFieldTest;
+
 card myCard;
 card transCard;
 card transCard2;
+
 button changePage;
 button addDragText;
+
 tabButton tabButtonTest;
+
 slider sliderTest; 
 slider sliderTestBG; 
 slider cardWidth;
 slider cardHeight;
+
 PFont myFontUI; 
+
 PImage bottom;
 PImage metallBG;
 PImage pappeBG;
 PImage woodBG;
 PImage topHand;
-int scene;
 PImage circle;
 
-PImage test;
-PGraphics maskImage;
+//2 Scene
+PImage etui;
+PImage etuiTop;
+PImage etuiTopClap;
+PImage curCard;
+
+int scene;
+
 dragImage ii;
 dragImage ii2;
 
 void setup()
 {
-  size(1024,768);   
+  size(1024,768, P3D);   
   scene = 0;
   String[] tabLabels = {"metall", "carton", "glass", "paper"}; 
   tabButtonTest = new tabButton(350, 630, 4, 500, 30, tabLabels);
@@ -54,19 +65,25 @@ void setup()
   bottom = loadImage("bottom.jpg");
   topHand = loadImage("TopHand.png");  
   circle = loadImage("circle.png");
+  
+  //2 Scene
+  etui = loadImage("etui.jpg");
+  etuiTop = loadImage("etuiTop.png");
+  etuiTopClap = loadImage("etuiTopClap.png");
+  
   ii = new dragImage(530, 310, 100, 100, "circle.png", true);  
-  ii2 = new dragImage(300, 310, 100, 100, "circle.png", true);  
+  ii2 = new dragImage(300, 310, 100, 100, "circle.png", false);  
   smooth(8);
+  textSize(30);
 }
 
 void draw()
 {      
   colorMode(RGB, 255, 255, 255);
-  background(230); 
+  background(255); 
       
   if (scene == 0)
   {    
-    textSize(30);
     colorMode(HSB, 360, 100, 100);  
     imageMode(CORNER);
     noTint();
@@ -86,7 +103,7 @@ void draw()
     } else {
       tint(sliderTestBG.myValue * 360, 50, 90);
       rectMode(CORNER);
-      myCard = new card(320 - (int)(cardWidth.myValue * 360)/5, 180 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180),10);
+      myCard = new card(320 - (int)(cardWidth.myValue * 360)/5, 180 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180),0);
       myCard.draw();  
     }
     imageMode(CENTER);
@@ -117,6 +134,8 @@ void draw()
     text("Background", 874, 330);
     text("Design", 842, 430);
     
+    curCard = get(320 - (int)(cardWidth.myValue * 360)/5, 180 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
+     
     popStyle();  
     image(topHand, -210, -115, 1022*1.3, 680*1.3);  
     tabButtonTest.draw();       
@@ -126,7 +145,8 @@ void draw()
     cardHeight.draw();
     textFieldTest.draw();    
     addDragText.draw();   
-        
+    
+       
     if (addDragText.pressed == 1)
     {
       dragText t = new dragText(400, 250, textFieldTest.myText);
@@ -134,14 +154,42 @@ void draw()
       addDragText.pressed = 0;
     }
   }
+  else
+  {
+    image(etui, 50, 70, 920, 600);  
+    
+    noStroke();
+    beginShape();
+    texture(curCard);
+    vertex(200, 528, 0, 0);
+    vertex(325, 625, 0, 150 + (int)(cardHeight.myValue * 180));
+    vertex(573, 508, 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
+    vertex(446, 415, 150 + (int)(cardWidth.myValue * 360), 0);
+    endShape();
+    
+    noStroke();
+    beginShape();
+    texture(curCard);
+    vertex(204, 352, 0, 0);
+    vertex(300, 426, 0, 150 + (int)(cardHeight.myValue * 180));
+    vertex(550, 325, 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
+    vertex(447, 250, 150 + (int)(cardWidth.myValue * 360), 0);
+    endShape();
+    
+    //text(mouseX, 100, 100);
+    //text(mouseY, 100, 120);
+    
+    image(etuiTop, 50, 70, 920, 600);  
+    image(etuiTopClap, 50, 70, 920, 600);  
+  }
   
   changePage.draw();
   if (changePage.pressed == 1)
     {
       if (scene == 0)
-      scene = 1;
+        scene = 1;
       else 
-      scene = 0;
+        scene = 0;
       changePage.pressed = 0;
     }
   
@@ -164,6 +212,7 @@ void mousePressed()
   changePage.mousePressed();
   addDragText.mousePressed();
   
+  //make list out of them!
   ii.mousePressed();
   ii2.mousePressed();
   
@@ -171,7 +220,6 @@ void mousePressed()
     dragTextList.get(i).mousePressed();
   }
   
-  //int lastPrintSizeSelection = tabButtonTest.activeTab;
   tabButtonTest.mousePressed();
 }
 
@@ -185,6 +233,7 @@ void mouseDragged() {
   cardWidth.mouseDragged();
   cardHeight.mouseDragged();
   
+  //make list out of them!
   ii.mouseDragged();
   ii2.mouseDragged();
   
@@ -199,8 +248,9 @@ void mouseReleased() {
   cardWidth.mouseReleased();
   cardHeight.mouseReleased();
   
+  //make list out of them!
   ii.mouseReleased();
-  ii.mouseReleased();
+  ii2.mouseReleased();
   
   for(int i = 0; i < dragTextList.size(); i++) {
     dragTextList.get(i).mouseReleased();

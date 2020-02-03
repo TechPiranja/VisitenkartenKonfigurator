@@ -38,9 +38,11 @@ class dragImage {
     {
       img.mask(maskImage);
       BGmask.mask(circle);  
+      noTint();
+      image(BGmask, 0, 0, myWidth, myHeight);  
     }
-    noTint();
-    image(BGmask, 0, 0, myWidth, myHeight);  
+    else
+      image(img, 0, 0, myWidth, myHeight);  
     popMatrix();
   }
     
