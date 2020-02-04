@@ -4,11 +4,13 @@ ArrayList<dragImage> dragImageList = new ArrayList<dragImage>();
 
 textField textFieldTest;
 toggleButton toggleMask;
+toggleButton toggleLabel;
 
 card myCard;
 card transCard;
 card transCard2;
 card transCard3;
+card transCard4;
 
 button changePage;
 button addDragText;
@@ -38,6 +40,7 @@ PImage etuiTop;
 PImage etuiWhole;
 PImage etuiTopClap;
 PImage curCard;
+PImage gravur;
 
 int scene;
 
@@ -53,10 +56,12 @@ void setup()
   etuiColorTab.activeTab = 0;
   
   toggleMask = new toggleButton(500, 702);
+  toggleLabel = new toggleButton(170, 630);
   
   transCard = new card(780, 90, 230, 400, 10);
   transCard2 = new card(332, 530, 677, 225, 10);
-  transCard3 = new card(590, 40, 400, 258, 10);
+  transCard3 = new card(585, 35, 405, 158, 10);
+  transCard4 = new card(20, 600, 700, 150, 10);
   
   cardWidth = new slider(795, 150, 200, 12, false);
   cardWidth.myValue = 0.5;
@@ -96,12 +101,14 @@ void setup()
 
 void draw()
 {        
-  colorMode(RGB, 255, 255, 255);
-  background(255); 
+  colorMode(RGB, 255, 255, 255);  
   changePage.changeLabel(scene == 0 ? ">" : "<");
   //------------------------ SCENE 0 ------------------------
   if (scene == 0)
-  {    
+  {   
+    background(240); 
+    createTransCardForEtui();
+    
     addDragText.xPos = 600;
     addDragText.yPos = 560;
     textFieldTest.xPos = 360;
@@ -134,17 +141,15 @@ void draw()
     tint(sliderTest.myValue * 360, 50, 90);
     
     
-    //circle.mask(maskImage);
-    //test.mask(circle);  
-    tint(sliderTest.myValue * 360, 50, 90);
-    
-    //image(test, mouseX, mouseY,100, 100);
-    
+    tint(sliderTest.myValue * 360, 50, 90);    
+    for(int i = 0; i < dragImageList.size(); i++) {
+      if(dragImageList.get(i).mask == false) dragImageList.get(i).draw();
+    }  
     for(int i = 0; i < dragTextList.size(); i++) {
     dragTextList.get(i).draw();
     }
     for(int i = 0; i < dragImageList.size(); i++) {
-    dragImageList.get(i).draw();
+      if(dragImageList.get(i).mask) dragImageList.get(i).draw();
     }    
     
     textAlign(CENTER);
@@ -159,9 +164,7 @@ void draw()
     text("Height", 842, 230);
     text("Background", 874, 330);
     text("Design", 842, 430);
-    
-    curCard = get(320 - (int)(cardWidth.myValue * 360)/5, 180 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
-     
+        
     popStyle();  
     image(topHand, -210, -115, 1022*1.3, 680*1.3);  
     tabButtonTest.draw();       
@@ -190,58 +193,82 @@ void draw()
   //------------------------ SCENE 1 ------------------------
   else
   {
+    background(255);
     noTint();
-    image(etui, 50, 70, 920, 600);  
+    image(etui, 50, 20, 920, 600);  
     etuiColorTab.draw();    
     if (etuiColorTab.activeTab == 1) etuiColor.draw();
     noStroke();
     beginShape();
     texture(curCard);
-    vertex(200, 528, 0, 0);
-    vertex(325, 625, 0, 150 + (int)(cardHeight.myValue * 180));
-    vertex(573, 508, 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
-    vertex(446, 415, 150 + (int)(cardWidth.myValue * 360), 0);
+    vertex(200, 478, 0, 0);
+    vertex(325, 575, 0, 150 + (int)(cardHeight.myValue * 180));
+    vertex(573, 458, 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
+    vertex(446, 365, 150 + (int)(cardWidth.myValue * 360), 0);
     endShape();
     
     colorMode(HSB, 360, 100, 100);  
     if (etuiColorTab.activeTab == 1) tint(etuiColor.myValue * 360, 50, 90);
-    image(etuiWhole, 50, 70, 920, 600);
+    image(etuiWhole, 50, 20, 920, 600);
     noTint();
     noStroke();
     beginShape();
     texture(curCard);
-    vertex(204, 352, 0, 0);
-    vertex(300, 426, 0, 150 + (int)(cardHeight.myValue * 180));
-    vertex(550, 325, 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
-    vertex(447, 250, 150 + (int)(cardWidth.myValue * 360), 0);
+    vertex(204, 302, 0, 0);
+    vertex(300, 376, 0, 150 + (int)(cardHeight.myValue * 180));
+    vertex(550, 275, 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
+    vertex(447, 200, 150 + (int)(cardWidth.myValue * 360), 0);
     endShape();
     colorMode(HSB, 360, 100, 100);  
     if (etuiColorTab.activeTab == 1) tint(etuiColor.myValue * 360, 50, 90);
-    image(etuiTop, 50, 70, 920, 600);  
-    image(etuiTopClap, 50, 70, 920, 600);  
+    image(etuiTop, 50, 20, 920, 600);  
+    image(etuiTopClap, 50, 20, 920, 600);  
     
     fill(0, 0, 0, 20);
     transCard3.draw();
-    addDragText.xPos = 600 + 250;
-    addDragText.yPos = 560 - 335;
-    textFieldTest.xPos = 360 + 250;
-    textFieldTest.yPos = 560 - 335;
-    addDragText.draw();  
-    textFieldTest.draw();  
+    transCard4.draw();
+    toggleLabel.draw();
     
+    colorMode(RGB, 255, 255, 255);  
+    fill(0);
     text("Color", 608, 75);
-    text("Gravur", 608, 210);
+    text("Label", 50, 650);
     
-    for(int i = 0; i < dragTextListEtui.size(); i++) {
-      pushMatrix();
-      //rotate(-0.2);
+    
+    if (toggleLabel.myStateActive)
+    {
+      addDragText.xPos = 280;
+      addDragText.yPos = 680;
+      textFieldTest.xPos = 50;
+      textFieldTest.yPos = 680;
+      addDragText.draw();  
+      textFieldTest.draw();  
+      
+      colorMode(RGB, 255, 255, 255);  
+      fill(255);
+      noStroke();
+      rect(490,620,210,110,0);
+      
+      for(int i = 0; i < dragTextListEtui.size(); i++) {
       dragTextListEtui.get(i).draw();
-      popMatrix();
-    }
+      }
+    
+      gravur = get(490, 620, 210, 110);
+      noTint();   
+      
+      noStroke();
+      beginShape();
+      texture(gravur);
+      vertex(566, 397, 0, 0);
+      vertex(633, 442, 0, 110);
+      vertex(773, 373, 210, 110);
+      vertex(702, 332, 210, 0);
+      endShape();   
+    }  
     
     if (addDragText.pressed == 1)
     {
-      dragText t = new dragText(700, 400, textFieldTest.myText);
+      dragText t = new dragText(750, 650, textFieldTest.myText);
       dragTextListEtui.add(t);
       addDragText.pressed = 0;
       print("test");
@@ -268,6 +295,7 @@ boolean insideRect(int xPos, int yPos, int targetXPos, int targetYPos, int targe
 }
 
 void mousePressed() {
+  toggleLabel.mousePressed();
   toggleMask.mousePressed();
   etuiColor.mousePressed();
   sliderTest.mousePressed();
@@ -331,4 +359,34 @@ void mouseReleased() {
   for(int i = 0; i < dragImageList.size(); i++) {
     dragImageList.get(i).mouseReleased();
   } 
+}
+
+void createTransCardForEtui()
+{
+  colorMode(HSB, 360, 100, 100);  
+  for(int i = 0; i < dragImageList.size(); i++) {
+    dragImageList.get(i).BGmask = get(dragImageList.get(i).xPos, dragImageList.get(i).yPos, 100, 100);
+  }
+  fill(sliderTestBG.myValue * 360, 50, 90);
+  if (tabButtonTest.activeTab == 0) {
+    image(metallBG, 320 - (int)(cardWidth.myValue * 360)/5, 180 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
+  } else if (tabButtonTest.activeTab == 1) {
+    image(pappeBG, 320 - (int)(cardWidth.myValue * 360)/5, 180 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
+  } else if (tabButtonTest.activeTab == 2) {
+    image(woodBG, 320 - (int)(cardWidth.myValue * 360)/5, 180 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180));
+  } else {
+    tint(sliderTestBG.myValue * 360, 50, 90);
+    rectMode(CORNER);
+    myCard = new card(320 - (int)(cardWidth.myValue * 360)/5, 180 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180),0);
+    myCard.draw();  
+  }
+  tint(sliderTest.myValue * 360, 50, 90);    
+  for(int i = 0; i < dragTextList.size(); i++) {
+  dragTextList.get(i).draw();
+  }
+  for(int i = 0; i < dragImageList.size(); i++) {
+  dragImageList.get(i).draw();
+  }   
+  noTint();
+  curCard = get(320 - (int)(cardWidth.myValue * 360)/5, 180 - (int)(cardHeight.myValue * 180)/2 , 150 + (int)(cardWidth.myValue * 360), 150 + (int)(cardHeight.myValue * 180)); 
 }
